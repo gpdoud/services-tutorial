@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
+import { User } from './user.class';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'services-tutorial';
+
+  users: User[];
+
+  constructor(private usersvc: UserService) {}
+
+  ngOnInit(): void {
+    this.usersvc.list().subscribe(
+      res => { 
+        console.log(res); 
+        this.users = res as User[];
+      },
+      err => { console.error(err); }
+    );
+  }
 }
